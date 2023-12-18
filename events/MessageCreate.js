@@ -1,6 +1,5 @@
 const { Events } = require('discord.js');
 const { Client, GatewayIntentBits } = require('discord.js');
-const Enmap = require("enmap");
 
 const client = new Client({
 	intents: [
@@ -10,8 +9,6 @@ const client = new Client({
 		GatewayIntentBits.GuildMembers,
 	],
 });
-
-client.points = new Enmap("points");
 
 module.exports = {
 	name: Events.MessageCreate,
@@ -25,7 +22,7 @@ module.exports = {
               points: 0,
               level: 1
             });
-            client.points.inc(key, "points");
+            client.points.math(key, "+", 0.1, "points");
 
                 // Calculate the user's current level
             const curLevel = Math.floor(0.1 * Math.sqrt(client.points.get(key, "points")));
