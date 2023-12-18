@@ -1,26 +1,39 @@
 const { Events } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
+const Enmap = require("enmap");
+
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+	],
+});
+
+client.points = new Enmap("points");
 
 module.exports = {
 	name: Events.MessageCreate,
 	execute(message) {
-    if (message.user.bot) return;
+    if (message.author.bot) return;
         if (message.guild) {
-            const key = `${message.user.id}`;
-            interaction.client.points.ensure(`${message.user.id}`, {
-              user: message.user.id,
+            const key = `${message.author.id}`;
+            client.points.ensure(`${message.author.id}`, {
+              user: message.author.id,
               guild: message.guild.id,
               points: 0,
               level: 1
             });
-            interaction.client.points.math(key, "+", 2, "points");
+            client.points.inc(key, "points");
 
                 // Calculate the user's current level
-            const curLevel = Math.floor(0.1 * Math.sqrt(interaction.client.points.get(key, "points")));
+            const curLevel = Math.floor(0.1 * Math.sqrt(client.points.get(key, "points")));
 
             // Act upon level up by sending a message and updating the user's level in enmap.
-            if (interaction.client.points.get(key, "level") < curLevel) {
+            if (client.points.get(key, "level") < curLevel) {
             message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`);
-            interaction.client.points.set(key, curLevel, "level");
+            client.points.set(key, curLevel, "level");
             }
         }
     }
