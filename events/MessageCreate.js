@@ -19,7 +19,7 @@ module.exports = {
 
             // Act upon level up by sending a message and updating the user's level in enmap.
             if (interaction.client.points.get(key, "level") < curLevel) {
-            interaction.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`);
+            message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`);
             interaction.client.points.set(key, curLevel, "level");
             }
         }
