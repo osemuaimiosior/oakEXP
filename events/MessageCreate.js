@@ -19,10 +19,10 @@ module.exports = {
             client.points.ensure(`${message.author.id}`, {
               user: message.author.id,
               guild: message.guild.id,
-              points: 0,
+              points: 0.00,
               level: 1
             });
-            client.points.math(key, "+", 0.1, "points");
+            client.points.math(key, "+", 0.10, "points");
 
                 // Calculate the user's current level
             const curLevel = Math.floor(0.1 * Math.sqrt(client.points.get(key, "points")));
